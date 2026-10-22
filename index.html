@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>QVEVE</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="QVEVE is a people-powered music streaming platform where artists earn more, listeners discover differently, and the algorithm is dead.">
+<meta property="og:title" content="QVEVE | Music Streaming for the Next Generation">
+<meta property="og:description" content="A people-powered music streaming platform where artists earn more, listeners discover differently, and the algorithm is dead.">
+<meta property="og:type" content="website">
+<link rel="icon" href="assets/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap">
+<style>
+/* Layout: single long page, five sections reachable by anchor. Monochrome foundation from the
+   QVEVE design system (src/index.css in qveve-demo); Inter throughout. */
+:root{
+  --bg:#fafafa;            /* 0 0% 98% */
+  --fg:#171717;            /* 0 0% 9% */
+  --muted:#f0f0f0;         /* 0 0% 94% */
+  --muted-fg:#737373;      /* 0 0% 45% */
+  --border:#e3e3e3;        /* 0 0% 89% */
+  --ink:#0a0a0a;           /* highlight blocks and dark cards */
+  --ink-fg:#fafafa;
+  --font-body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --radius-pill:999px;
+  --logo-url:url("assets/logo-black.png");
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0a0a0a; --fg:#fafafa; --muted:#1f1f1f; --muted-fg:#a3a3a3; --border:#262626;
+    --ink:#fafafa; --ink-fg:#0a0a0a; --logo-url:url("assets/logo-white.png"); color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0a0a0a; --fg:#fafafa; --muted:#1f1f1f; --muted-fg:#a3a3a3; --border:#262626;
+  --ink:#fafafa; --ink-fg:#0a0a0a; --logo-url:url("assets/logo-white.png"); color-scheme:dark;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+img{max-width:100%;display:block}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--fg);outline-offset:3px;border-radius:4px}
+
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.narrow{max-width:760px;margin-inline:auto}
+
+/* Type scale */
+h1,h2,h3,h4{margin:0;font-weight:900;text-transform:uppercase;letter-spacing:-.01em;line-height:1.05;text-wrap:balance}
+h1{font-size:clamp(2.2rem,6.2vw,4.6rem)}
+h2{font-size:clamp(1.7rem,4.2vw,2.9rem)}
+h3{font-size:clamp(1.15rem,2.2vw,1.45rem);line-height:1.15}
+h4{font-size:1rem;letter-spacing:.04em}
+p{margin:0}
+.lede{font-size:clamp(1.05rem,1.6vw,1.3rem);font-weight:600;text-transform:uppercase;line-height:1.35;letter-spacing:-.005em}
+.eyebrow{font-family:var(--font-body);font-weight:800;text-transform:uppercase;letter-spacing:.14em;font-size:.8rem;color:var(--muted-fg)}
+.prose{font-size:1.05rem;max-width:66ch}
+.prose p+p{margin-top:1em}
+mark{background:var(--ink);color:var(--ink-fg);padding:.04em .22em;border-radius:3px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+u{text-decoration-thickness:.12em;text-underline-offset:.14em}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.85rem 1.6rem;border-radius:var(--radius-pill);border:2px solid var(--fg);background:transparent;color:var(--fg);font:700 .85rem/1.1 var(--font-body);text-transform:uppercase;letter-spacing:.08em;white-space:nowrap;text-decoration:none;cursor:pointer;transition:background .18s,color .18s,transform .18s}
+.btn:hover{background:var(--fg);color:var(--bg)}
+.btn.solid{background:var(--fg);color:var(--bg)}
+.btn.solid:hover{transform:translateY(-1px)}
+.btn-row{display:flex;flex-wrap:wrap;gap:.8rem;justify-content:center}
+
+/* Header */
+.site-header{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+.site-header .wrap{display:flex;align-items:center;justify-content:space-between;gap:1rem;min-height:68px;overflow:visible}
+.logo{display:inline-block;width:44px;height:44px;background:var(--logo-url) center/contain no-repeat;flex:none}
+.logo.lg{width:clamp(96px,14vw,150px);height:clamp(96px,14vw,150px)}
+.logo.sm{width:40px;height:40px}
+.site-nav{display:flex;gap:1.4rem;align-items:center;font-size:.9rem;font-weight:600}
+.site-nav a{text-decoration:none;padding:.3rem 0;border-bottom:2px solid transparent}
+.site-nav a:hover,.site-nav a[aria-current="true"]{border-bottom-color:var(--fg)}
+.site-nav .nav-btn{padding:.55rem 1.1rem;font-size:.75rem;line-height:1;border:2px solid var(--fg)}
+.site-nav .nav-btn:hover{background:var(--fg);color:var(--bg)}
+@media (max-width:760px){.site-nav .nav-btn{align-self:flex-start;margin-top:.9rem;border:2px solid var(--fg)}}
+.menu-btn{display:none;appearance:none;background:none;border:2px solid var(--fg);border-radius:var(--radius-pill);padding:.5rem 1.05rem;font:700 .75rem/1 var(--font-body);letter-spacing:.08em;text-transform:uppercase;color:var(--fg);cursor:pointer}
+@media (max-width:760px){
+  .menu-btn{display:inline-block}
+  .site-nav{position:absolute;left:0;right:0;top:100%;flex-direction:column;align-items:stretch;gap:0;background:var(--bg);border-bottom:1px solid var(--border);padding:.4rem max(16px,env(safe-area-inset-left,0px)) 1rem}
+  .site-nav[hidden]{display:none}
+  .site-nav a{padding:.75rem 0;border-bottom:1px solid var(--border)}
+  .site-nav a:last-child{border-bottom:0}
+}
+@media (min-width:761px){.site-nav{display:flex!important}}
+
+/* Sections */
+section{padding-block:clamp(3.5rem,8vw,6.5rem)}
+section+section{border-top:1px solid var(--border)}
+.section-head{display:grid;gap:1rem;text-align:center;justify-items:center;margin-bottom:clamp(2rem,5vw,3.5rem)}
+.rule{width:100%;max-width:880px;height:1px;background:var(--border);margin:1.25rem auto}
+
+/* Hero */
+.hero{text-align:center;padding-top:clamp(3rem,7vw,5.5rem)}
+.hero .wrap{display:grid;justify-items:center;gap:1.5rem}
+.hero .lede{max-width:900px}
+
+/* Feature lists */
+.feature-list{margin:0;padding:0;display:grid;gap:0;border-top:1px solid var(--border)}
+.feature-list.narrow,.callout.narrow{margin-inline:auto}
+[hidden]{display:none!important}
+.feature-list details{border-bottom:1px solid var(--border)}
+.feature-list summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:auto 1fr auto;column-gap:1rem;align-items:center;padding:1.1rem 0;font-weight:800;text-transform:uppercase;font-size:clamp(1rem,1.9vw,1.35rem);letter-spacing:-.005em;line-height:1.2;text-wrap:balance}
+.feature-list summary::-webkit-details-marker{display:none}
+.feature-list summary::before{content:"";width:.55em;height:.55em;background:var(--fg);border-radius:2px;transform:rotate(45deg)}
+.feature-list summary::after{content:"";width:12px;height:12px;border-right:2.5px solid var(--fg);border-bottom:2.5px solid var(--fg);transform:rotate(45deg) translate(-2px,-2px);transition:transform .2s;justify-self:end;margin-right:4px}
+.feature-list details[open] summary::after{transform:rotate(225deg) translate(-2px,-2px)}
+.feature-list summary:hover{color:var(--muted-fg)}
+.feature-list summary:focus-visible{outline-offset:-3px}
+.feature-list .body{padding:0 2.2rem 1.3rem 1.95rem;font-size:1rem;max-width:62ch;min-width:0}
+.feature-list .body .price{font-weight:700}
+@media (prefers-reduced-motion: no-preference){.feature-list details[open] .body{animation:reveal .22s ease-out}}
+@keyframes reveal{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+
+.callout{background:var(--ink);color:var(--ink-fg);border-radius:28px;padding:clamp(1.6rem,4vw,2.8rem);display:grid;gap:.8rem;margin-top:3rem}
+.callout h3{font-family:var(--font-body);font-weight:800;letter-spacing:.02em}
+.callout p{max-width:66ch;opacity:.92}
+
+/* About */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,5vw,4rem)}
+@media (max-width:860px){.about-grid{grid-template-columns:1fr}}
+.stack{display:grid;gap:1.6rem;align-content:start}
+.kv h4{margin-bottom:.5rem}
+.kv p+p{margin-top:.5rem}
+.mvv{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-top:3rem}
+@media (max-width:860px){.mvv{grid-template-columns:1fr}}
+.mvv > div{border-top:3px solid var(--fg);padding-top:1rem;display:grid;gap:.6rem;align-content:start}
+.mvv ul{margin:0;padding-left:1.1rem;display:grid;gap:.4rem;font-size:.95rem}
+.founder{margin-top:3.5rem;display:grid;grid-template-columns:auto 1fr;gap:clamp(1.5rem,4vw,3rem);align-items:start;border:1px solid var(--border);border-radius:28px;padding:clamp(1.4rem,4vw,2.4rem)}
+@media (max-width:700px){.founder{grid-template-columns:1fr}}
+.founder .photo{width:clamp(160px,22vw,240px);height:auto;aspect-ratio:1;object-fit:cover;border-radius:24px;border:1px solid var(--border);max-width:100%}
+
+/* Footer */
+footer{border-top:1px solid var(--border);padding-block:3rem 2.5rem;text-align:center}
+footer .wrap{display:grid;justify-items:center;gap:1.2rem}
+.foot-links{display:flex;flex-wrap:wrap;gap:1.4rem;justify-content:center;font-size:.8rem;font-weight:600}
+.foot-links a{text-decoration:none;border-bottom:1px solid var(--border)}
+.foot-links a:hover{border-bottom-color:var(--fg)}
+.social{display:inline-flex;width:40px;height:40px;border:1.5px solid var(--fg);border-radius:50%;align-items:center;justify-content:center}
+.social svg{width:18px;height:18px}
+.copy{font-size:.75rem;color:var(--muted-fg)}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="#top" class="logo" aria-label="QVEVE home"></a>
+    <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="siteNav">Menu</button>
+    <nav class="site-nav" id="siteNav" aria-label="Primary">
+      <a href="#top" aria-current="true">Home</a>
+      <a href="#artists">For Artists</a>
+      <a href="#listeners">For Listeners</a>
+      <a href="#about">About</a>
+      <a href="https://demo.qveve.music/" target="_blank" rel="noopener" class="btn nav-btn">Live Demo</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+<section class="hero">
+  <div class="wrap">
+    <span class="logo lg" role="img" aria-label="QVEVE logo"></span>
+    <h1>Home of the music streaming revolution</h1>
+    <div class="rule"></div>
+    <p class="lede">QVEVE ("queue" or Q) is a <mark>people-powered</mark> music streaming platform where <u>artists earn more</u>, listeners <mark>discover differently</mark>, and the algorithm is dead.</p>
+    <div class="btn-row">
+      <a class="btn solid" href="https://demo.qveve.music/" target="_blank" rel="noopener">Live interactive demo</a>
+    </div>
+
+    <div class="section-head" style="margin-top:2.5rem;margin-bottom:0">
+      <h2>See how QVEVE is being built differently:</h2>
+      <div class="btn-row">
+        <a class="btn" href="#artists">For Artists</a>
+        <a class="btn" href="#listeners">For Listeners</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOR ARTISTS -->
+<section id="artists">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">For Artists</span>
+      <h2 style="font-size:clamp(2rem,5.4vw,3.8rem)">You deserve more</h2>
+      <p class="lede">Take back control of your music</p>
+      <p class="prose" style="text-align:center;max-width:62ch">Get paid fairly, build community, and grow without compromise. QVEVE is the artist-first platform the industry didn't want you to have.</p>
+    </div>
+
+    <h4 style="text-align:center;margin-bottom:1.2rem">What makes QVEVE different for artists</h4>
+    <div class="feature-list narrow">
+      <details><summary>Keep more of what you earn</summary><p class="body">QVEVE is built on a user-centric payout model, not pro-rata. Your fans' plays and ENQOREs go directly to you. No more losing out to major label whales.</p></details>
+      <details><summary>Monetize without middlemen</summary><p class="body">From day one, you can earn ENQORE, accept appreciation from listeners, and grow your Station, even on a free plan.</p></details>
+      <details><summary>Real fans, not algorithms</summary><p class="body">Your music is discovered through community-driven discovery, Request Line votes, and vibe-based swiping. No black-box AI deciding your worth.</p></details>
+      <details><summary>Verified Artist tools that respect you</summary><p class="body">For just <span class="price">$19.99/year</span>, Verified Artists unlock unlimited uploads, full analytics, metadata tools, Station customization, and more. No gatekeeping, ever.</p></details>
+      <details><summary>We're not a platform. We're a movement.</summary><p class="body">QVEVE is founded by someone that cares about music and the artists that create it, built with real values, and designed to flip the current system. Just someone with a vision and audacity to do something about it.</p></details>
+    </div>
+
+    <div class="callout narrow">
+      <h3>Built-in support for independent artists</h3>
+      <p>QVEVE reinvests a portion of platform revenue into grants for independent creators, no strings attached. Verified Artists are eligible to apply for creative support, business formation help, and mental health and wellness resources.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOR LISTENERS -->
+<section id="listeners">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">For Listeners</span>
+      <h2 style="font-size:clamp(2rem,5.4vw,3.8rem)">You're not a stream count.<br>You're a fan.</h2>
+      <p class="prose" style="text-align:center;max-width:62ch">Tired of music feeling like background noise? QVEVE is bringing back the joy of intentional listening and discovery, driven by people, not code.</p>
+    </div>
+
+    <h4 style="text-align:center;margin-bottom:1.2rem">What makes QVEVE different for listeners</h4>
+    <div class="feature-list narrow">
+      <details><summary>Music discovery, powered by people, not algorithms</summary><p class="body">Tired of the same songs served by cold, corporate playlists? QVEVE is powered by people, not algorithms. Discover music through real listener votes, community-curated playlists, and live hosted Stations, just like flipping through records with friends.</p></details>
+      <details><summary>Real-time requests and community chat</summary><p class="body">Got a song stuck in your head? Drop it in the ReQuest Line. Listeners vote on what plays next, and Hosts can chat with you in real time. It's like calling into your favorite radio show, if your favorite radio show actually listened.</p></details>
+      <details><summary>ENQORE: show love, not likes</summary><p class="body">Support the artists and hosts you care about with ENQORE, our platform appreciation currency. Whether you're cheering on your favorite Station or boosting a song request, your support goes directly to the creators, not some middleman.</p></details>
+      <details><summary>Listener DNA: your soundtrack, your story</summary><p class="body">No more waiting for a year-end recap. QVEVE's Music DNA evolves with you, giving you a live, personalized snapshot of your listening habits, music moods, and favorite discoveries, all the time. Find your Music Family, and connect with others that vibe with you on another level.</p></details>
+      <details><summary>Artist-first, ad-free optional, always respectful</summary><p class="body">Every feature is built around fairness, consent, and transparency. You can listen free with respectful audio-only ads or go Premium for an ad-free, download-enabled experience, knowing that your subscription directly supports the artists you love.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">About</span>
+      <h2 style="font-size:clamp(2rem,5.4vw,3.8rem)">About QVEVE</h2>
+    </div>
+    <div class="about-grid">
+      <div class="stack">
+        <div class="prose">
+          <p>QVEVE is a new kind of music streaming platform, made for artists who deserve better and listeners who want more.</p>
+          <p>We're building a space where music means connection, discovery is driven by people (not algorithms), and artists are finally paid what they're worth.</p>
+          <p>No data games. No exploitative payouts. No more building culture for a system that devalues the creators behind it.</p>
+        </div>
+        <div class="kv">
+          <h4>Why now</h4>
+          <p>The current system was built to combat music piracy. It wasn't built for the artists, or the fans. We're here to change that.</p>
+          <p>Because the future of music should belong to the people who make it, and the ones who truly listen.</p>
+        </div>
+      </div>
+      <div class="stack">
+        <div class="kv">
+          <h4>Who it's for</h4>
+          <p><strong>Artists</strong> who deserve transparency, community, and better earnings.</p>
+          <p><strong>Listeners</strong> who want to support the music they love and discover new sounds with intention, not by algorithm.</p>
+        </div>
+        <div class="kv">
+          <h4>What makes it different</h4>
+          <p><strong>Artist-first earnings:</strong> Fairer, clearer payouts, because creators come first.</p>
+          <p><strong>People-powered discovery:</strong> No algorithm. No pay to play. No editorial coverage. Just real playlists, tags, and vibes from real people.</p>
+          <p><strong>Community at the core:</strong> QVEVE is more than a player. It's a stage, a hangout, a homecoming.</p>
+          <p><strong>Regenerative, not extractive:</strong> Giving back to artists is built into the business model.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mvv">
+      <div>
+        <h4>Our mission</h4>
+        <p>To rewrite the rules of streaming by putting artists first, valuing human connection, and creating a music experience that actually supports the people behind the sound.</p>
+      </div>
+      <div>
+        <h4>Our vision</h4>
+        <p>To create a world where music platforms serve culture, not exploit it. Where artists earn more, fans feel seen, and music discovery feels human again.</p>
+      </div>
+      <div>
+        <h4>Our values</h4>
+        <ul>
+          <li><strong>Artists First:</strong> Always. In earnings, in visibility, in respect.</li>
+          <li><strong>Radical Transparency:</strong> In how we pay, how we build, and how we show up.</li>
+          <li><strong>Community-Driven:</strong> Discovery is better together. People over algorithms.</li>
+          <li><strong>Creativity Without Burnout:</strong> We protect the joy of creating, for artists and listeners.</li>
+          <li><strong>Joyful Rebellion:</strong> We challenge the system, but we do it with style, intention, and love for the music.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="founder">
+      <img class="photo" src="assets/founder.jpg" alt="Samantha Bowling, QVEVE founder" width="800" height="800">
+      <div class="stack" style="gap:.8rem">
+        <span class="eyebrow">Music industry rebels with a cause</span>
+        <p class="prose"><strong><a href="https://samantha-bowling.com" target="_blank" rel="noopener">Samantha Bowling</a> (Founder)</strong> is a purveyor of music with a penchant for nostalgia. Samantha and her husband Robert founded <a href="https://www.pnwkmusic.com/" target="_blank" rel="noopener">PNWK Records</a> in 2023, an indie record label focusing on alt, emo, punk, and rock artists. As a label, they don't give out loans, own rights or masters to their artists' work, and invest in their artists directly without any initial recoupment. They believe that if these artists are supported with the resources and care they deserve, they will flourish. They want to take that ethos and apply it to every artist, everywhere.</p>
+        <p class="prose">Music streaming is here to stay, and QVEVE is here to challenge the status quo of what music streaming means for the artist, the fan, and the business.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <a href="#top" class="logo sm" aria-label="Back to top"></a>
+    <a class="social" href="https://www.instagram.com/qveve.music/" target="_blank" rel="noopener" aria-label="QVEVE on Instagram">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor"/></svg>
+    </a>
+    <div class="foot-links">
+      <a href="privacy-policy.html">Privacy Policy</a>
+      <a href="terms-of-service.html">Terms of Service</a>
+      <a href="https://demo.qveve.music/" target="_blank" rel="noopener">Live Demo</a>
+    </div>
+    <p class="copy">&copy; <span id="year">2026</span> QVEVE. Artists first. Always.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Mobile menu
+  var btn = document.getElementById('menuBtn'), nav = document.getElementById('siteNav');
+  function setMenu(open){ nav.hidden = !open; btn.setAttribute('aria-expanded', String(open)); btn.textContent = open ? 'Close' : 'Menu'; }
+  function isMobile(){ return window.matchMedia('(max-width:760px)').matches; }
+  if (isMobile()) setMenu(false);
+  btn.addEventListener('click', function(){ setMenu(nav.hidden); });
+  nav.addEventListener('click', function(e){ if (e.target.tagName === 'A' && isMobile()) setMenu(false); });
+  window.addEventListener('resize', function(){ if (!isMobile()) { nav.hidden = false; } else if (btn.getAttribute('aria-expanded') !== 'true') { nav.hidden = true; } });
+
+  // Highlight current section in nav
+  var links = Array.prototype.slice.call(nav.querySelectorAll('a[href^="#"]'));
+  var targets = links.map(function(a){ return document.querySelector(a.getAttribute('href')); }).filter(Boolean);
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if (en.isIntersecting) {
+          links.forEach(function(a){ a.removeAttribute('aria-current'); });
+          var hit = links.find(function(a){ return a.getAttribute('href') === '#' + en.target.id; });
+          if (hit) hit.setAttribute('aria-current','true');
+        }
+      });
+    }, { rootMargin: '-40% 0px -55% 0px' });
+    targets.forEach(function(t){ io.observe(t); });
+  }
+
+})();
+</script>
+</body>
+</html>
